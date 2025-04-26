@@ -1,23 +1,43 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-from flask_bcrypt import Bcrypt
 import os
+import logging
+from datetime import datetime
 from dotenv import load_dotenv
+from flask import Flask, jsonify, make_response, request
+from flask_login import (
+    LoginManager, login_user, logout_user,
+    login_required, current_user
+)
 
-# Load environment variables
+from config import ProductionConfig
+from weather.db import db
+from weather.models.user_model import User
+from weather.models.weatherLocation_model import WeatherLocation
+from weather.models.weatherData_model import WeatherData
+from weather.utils.logger import configure_logger
+
 load_dotenv()
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv("SECRET_KEY") 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///weather_dashboard.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+def create_app(config_class=ProductionConfig):
+    app = Flask(__name__)
+    configure_logger(app.logger)
+    app.config.from_object(config_class)
 
-db = SQLAlchemy(app)
-login_manager = LoginManager(app)
-bcrypt = Bcrypt(app)
+    
+    db.init_app(app) #set up the database
+    with app.app_context():
+        db.create_all()
+    
 
-from weather.model.user_model import User
-from weather.model.weatherLocation import weatherLocation
-from weather.model.weatherData import weatherData
+    login_manager = LoginManager() #handles user login-functionality
+    login_manager.init_app(app)
+    login_manager.login_view = "login"
 
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+
+    @login_manager.unauthorized_handler
+    def unauthorized():
+        return make_response(jsonify({
+            "status": "error", "message": "Auth required"
+        }), 401)
