@@ -30,16 +30,30 @@ class WeatherLocation(db.Model):
     pressure = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, nullable=False)
 
+    def __init__(
+            self, user_id: int, city_name: str, country_code: str, temperature: float,
+            humidity: int, weather_description: str, wind_speed: float,
+            cloudiness: int, pressure: int, timestamp
+        ):
+            self.user_id = user_id
+            self.city_name = city_name
+            self.country_code = country_code
+            self.temperature = temperature
+            self.humidity = humidity
+            self.weather_description = weather_description
+            self.wind_speed = wind_speed
+            self.cloudiness = cloudiness
+            self.pressure = pressure
+            self.timestamp = timestamp
 
 
-
-     @classmethod
+    @classmethod
     def create_location(cls, user_id: int, weather_data: dict) -> None:
         """Create and persist a new weather location entry."""
     
 
         logger.info(f"Saving weather lookup for user {user_id} and city {weather_data['name']}")
-         __tablename__ = 'weather_location'
+        __tablename__ = 'weather_location'
 
         
         id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -55,21 +69,6 @@ class WeatherLocation(db.Model):
         pressure = db.Column(db.Integer)
         timestamp = db.Column(db.DateTime, nullable=False)
 
-        def __init__(
-        self, user_id: int, city_name: str, country_code: str, temperature: float,
-        humidity: int, weather_description: str, wind_speed: float,
-        cloudiness: int, pressure: int, timestamp
-    ):
-        self.user_id = user_id
-        self.city_name = city_name
-        self.country_code = country_code
-        self.temperature = temperature
-        self.humidity = humidity
-        self.weather_description = weather_description
-        self.wind_speed = wind_speed
-        self.cloudiness = cloudiness
-        self.pressure = pressure
-        self.timestamp = timestamp
 
     @classmethod
     def create_weather_location(
