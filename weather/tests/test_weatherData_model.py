@@ -3,10 +3,6 @@ from datetime import datetime
 from weather.models.weatherData_model import WeatherData
 
 
-import pytest
-from datetime import datetime
-from weather.models.weatherData_model import WeatherData
-
 
 @pytest.fixture
 def weather_model():
