@@ -1,10 +1,19 @@
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Add the project root to sys.path
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+print("sys.path at the beginning of conftest.py:")
+for path in sys.path:
+    print(path)
 
 import pytest
 from app import create_app
 from config import TestConfig
+from weather import db
 
 @pytest.fixture
 def app():

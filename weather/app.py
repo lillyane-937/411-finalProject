@@ -1,13 +1,21 @@
-from dotenv import load_dotenv
-from flask import Flask, jsonify, make_response, request
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from flask import Response
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+from flask import Flask
+
+from flask import Flask
+from flask_login import LoginManager
 from config import ProductionConfig
-from weather.db import db
 from weather.models.user_model import Users
 from weather.models.weatherData_model import WeatherData
 from weather.utils.logger import configure_logger
+from weather import db
+from .weather import api
+weather_api_bp = api.weather_api_bp
+from weather.auth import auth_bp
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -22,19 +30,24 @@ def create_app(config_class=ProductionConfig):
         Flask: The configured Flask application instance.
     """
     app = Flask(__name__)
-    configure_logger(app.logger)
-
     app.config.from_object(config_class)
 
     db.init_app(app)
-    with app.app_context():
-        db.create_all()
 
     login_manager = LoginManager()
     login_manager.init_app(app)
-    login_manager.login_view = "login"
+    login_manager.login_view = 'auth.login'
 
     @login_manager.user_loader
+    def load_user(user_id):
+        return Users.query.get(int(user_id))
+
+    app.register_blueprint(weather_api_bp, url_prefix='/weather')
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+
+    configure_logger(app.logger)
+
+    return app
     def load_user(user_id):
         """
         Load a user from the database by their user ID.
