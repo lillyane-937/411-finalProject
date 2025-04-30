@@ -2,7 +2,7 @@ import logging
 from typing import List, Dict, Optional
 from datetime import datetime
 
-from weather.weather_api import fetch_current_weather
+from weather.weather_api import get_current_weather
 from weather.utils.logger import configure_logger
 
 
@@ -16,7 +16,7 @@ class WeatherData:
         configure_logger(self.logger)
 
     def add_location(self, city_name: str) -> None:
-         """
+        """
         Fetch weather data from the API and add it to the in-memory list.
 
         Args:
@@ -94,7 +94,7 @@ class WeatherData:
         return None
 
     def delete_weather_by_id(self, location_id: int) -> None:
-         """
+        """
         Delete a weather record by its index ID.
 
         Args:
