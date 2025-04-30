@@ -1,6 +1,6 @@
 import pytest
 
-from weather.models.user_model import Users
+from weather.weather.models.user_model import Users
 
 
 @pytest.fixture

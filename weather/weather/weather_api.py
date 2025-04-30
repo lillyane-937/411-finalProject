@@ -14,31 +14,31 @@ def get_current_weather(location):
     """
     Fetch current weather data for a given city.
 
-    Args: location 
+    Args: location
 
     Returns: Parsed weather data or error message
     """
     if not API_KEY:
-      return {"error": "API Key is missing!"}
-      
+        return {"error": "API Key is missing!"}
+
     endpoint = f"{BASE_URL}/weather"
     params = {
         'q': location,
         'appid': API_KEY,
-        'units': 'imperial'  
+        'units': 'imperial'
     }
 
     try:
         response = requests.get(endpoint, params=params)
-        response.raise_for_status()  # raises error if bad status code
-        return response.json()  # returns data as a dictionary
+        response.raise_for_status()  
+        return response.json()  
     except requests.exceptions.RequestException as e:
         return {"error": str(e)}
-    
+
 if __name__ == "__main__":
     city = input("Enter a city: ")
     weather = get_current_weather(city)
-   
+
     if "error" in weather:
         print(weather["error"])
     else:

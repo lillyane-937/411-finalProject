@@ -4,6 +4,9 @@ from datetime import datetime
 
 from weather.weather_api import get_current_weather
 from weather.utils.logger import configure_logger
+from weather.weather.weather_api import get_current_weather
+#from utils.logger import configure_logger
+from weather.weather.utils.logger import configure_logger
 
 
 class WeatherData:
@@ -28,7 +31,7 @@ class WeatherData:
         """
         self.logger.info(f"Adding weather data for city: {city_name}")
         try:
-            data = fetch_current_weather(city_name)
+            data = get_current_weather(city_name)
             if not data:
                 raise ValueError(f"No weather data found for city: {city_name}")
 
@@ -49,6 +52,7 @@ class WeatherData:
         except Exception as e:
             self.logger.error(f"Failed to add weather data for {city_name}: {e}")
             raise
+
 
     def get_all_locations(self) -> List[Dict]:
         """
@@ -136,7 +140,7 @@ class WeatherData:
         self.logger.info(f"Updating weather data for city: {city_name}")
         for record in self.weather_records:
             if record["city_name"].lower() == city_name.lower():
-                new_data = fetch_current_weather(city_name)
+                new_data = get_current_weather(city_name)
                 if not new_data:
                     raise ValueError(f"No updated data found for city: {city_name}")
                 record.update({

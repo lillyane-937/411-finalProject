@@ -3,19 +3,11 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from flask import Flask
-
-from flask import Flask
-from flask_login import LoginManager
-from config import ProductionConfig
-from weather.models.user_model import Users
-from weather.models.weatherData_model import WeatherData
-from weather.utils.logger import configure_logger
-from weather import db
-from .weather import api
-weather_api_bp = api.weather_api_bp
-from weather.auth import auth_bp
-from dotenv import load_dotenv
+from weather.config import ProductionConfig
+from weather.db import db
+from weather.weather.models.user_model import Users
+from weather.weather.models.weatherData_model import WeatherData
+from weather.weather.utils.logger import configure_logger
 
 load_dotenv()
 

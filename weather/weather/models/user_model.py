@@ -6,7 +6,8 @@ from flask_login import UserMixin
 from sqlalchemy.exc import IntegrityError
 
 from weather.db import db
-from weather.utils.logger import configure_logger
+#from utils.logger import configure_logger
+from weather.weather.utils.logger import configure_logger
 
 logger = logging.getLogger(__name__)
 configure_logger(logger)
