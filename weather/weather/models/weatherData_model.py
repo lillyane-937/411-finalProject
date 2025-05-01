@@ -1,6 +1,6 @@
 import logging
 from typing import List, Dict, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 
 from weather.weather_api import get_current_weather
 from weather.utils.logger import configure_logger
@@ -44,7 +44,7 @@ class WeatherData:
                 "wind_speed": data["wind"]["speed"],
                 "cloudiness": data["clouds"]["all"],
                 "pressure": data["main"]["pressure"],
-                "timestamp": datetime.utcfromtimestamp(data["dt"])
+                "timestamp": datetime.fromtimestamp(data["dt"], timezone.utc)
             }
             self.weather_records.append(weather_entry)
             self.logger.info(f"Weather data added for {city_name}")
@@ -150,7 +150,7 @@ class WeatherData:
                     "wind_speed": new_data["wind"]["speed"],
                     "cloudiness": new_data["clouds"]["all"],
                     "pressure": new_data["main"]["pressure"],
-                    "timestamp": datetime.utcfromtimestamp(new_data["dt"])
+                    "timestamp": datetime.fromtimestamp(new_data["dt"], timezone.utc)
                 })
                 self.logger.info(f"Weather data updated for city: {city_name}")
                 return

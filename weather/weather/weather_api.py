@@ -1,6 +1,12 @@
 import os
 import requests
+import logging
 from dotenv import load_dotenv
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 # Load the API key from .env file
 load_dotenv()
@@ -19,7 +25,9 @@ def get_current_weather(location):
     Returns: Parsed weather data or error message
     """
     if not API_KEY:
-        return {"error": "API Key is missing!"}
+        error_message = "API Key is missing!"
+        logging.error(error_message)
+        return {"error": error_message}
 
     endpoint = f"{BASE_URL}/weather"
     params = {
@@ -29,10 +37,13 @@ def get_current_weather(location):
     }
 
     try:
+        logging.info(f"Requesting weather for {location}")
         response = requests.get(endpoint, params=params)
-        response.raise_for_status()  
+        response.raise_for_status()
+        logging.info(f"Weather data fetched successfully for {location}") 
         return response.json()  
     except requests.exceptions.RequestException as e:
+        logging.error(f"Error fetching weather for {location}: {str(e)}")
         return {"error": str(e)}
 
 if __name__ == "__main__":

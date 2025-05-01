@@ -8,6 +8,10 @@ from weather.db import db
 from weather.weather.models.user_model import Users
 from weather.weather.models.weatherData_model import WeatherData
 from weather.weather.utils.logger import configure_logger
+from flask import Flask, Response, jsonify, make_response
+from flask_login import LoginManager
+from flask_login import login_required
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -34,12 +38,15 @@ def create_app(config_class=ProductionConfig):
     def load_user(user_id):
         return Users.query.get(int(user_id))
 
-    app.register_blueprint(weather_api_bp, url_prefix='/weather')
-    app.register_blueprint(auth_bp, url_prefix='/auth')
+    #app.register_blueprint(weather_api_bp, url_prefix='/weather')
+    #app.register_blueprint(auth_bp, url_prefix='/auth')
 
-    configure_logger(app.logger)
+    import logging
+    logger = logging.getLogger(__name__)
+    configure_logger(logger)
+    app.logger = logger
 
-    return app
+    
     def load_user(user_id):
         """
         Load a user from the database by their user ID.
