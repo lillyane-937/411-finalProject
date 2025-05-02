@@ -51,6 +51,12 @@ For our project we used the OpenWeather API. The app allows users to create acco
     "password": "securepassword"
   }
 
+ - **Example Response**:
+  ```json
+     { "status": "success", "message": "User 'newuser123' created successfully" }
+
+  
+ ```
 
   ### Login
 
@@ -70,32 +76,26 @@ For our project we used the OpenWeather API. The app allows users to create acco
             "message": "User 'newuser123' logged in"
         }
       ```
-  - **Error Response** (Missing fields):
-    - Code: 401
-    - Content:
-      ```json
-      {
-        "status": "error",
-          "message": "Invalid credentials"
-        }
-
-     
-      ```
 - **Example Request**:
   ```json
   {
     "username": "newuser123",
     "password": "securepassword"
   }
+      ```
+  - **Example Response**:
+  ```json
+  {     "status": "success",
+           "message": "User 'newuser123' logged in"
+  }
+  ```
+  ### Logout
 
-  ### Login
-
-- **Route**: `/api/login`
+- **Route**: `/api/logout`
 - **Request Type**: POST
-- **Purpose**: Authenticates an existing user
+- **Purpose**: logs out an user
 - **Request Body**:
-  - `username` (String): User's username
-  - `password` (String): User's  password
+  - `None`
 - **Response Format**: JSON
   - **Success Response Example**:
     - Code: 200
@@ -103,26 +103,9 @@ For our project we used the OpenWeather API. The app allows users to create acco
       ```json
        {
             "status": "success",
-            "message": "User 'newuser123' logged in"
+            "message": "User 'newuser123' logged out"
         }
       ```
-  - **Error Response** (Missing fields):
-    - Code: 401
-    - Content:
-      ```json
-      {
-        "status": "error",
-          "message": "Invalid credentials"
-        }
-
-     
-      ```
-- **Example Request**:
-  ```json
-  {
-    "username": "newuser123",
-    "password": "securepassword"
-  }
 
  ### Change Password
 - **Route**: `/api/change-password`
@@ -139,6 +122,9 @@ For our project we used the OpenWeather API. The app allows users to create acco
       "status": "success",
         "message": "Password changed"
       }
+
+      - **Response Format**:
+        { "new_password": "newsecurepassword" }
  
       ```
 
@@ -160,7 +146,7 @@ For our project we used the OpenWeather API. The app allows users to create acco
  
       ```
 
- ### Reset users Table
+ ### Get All weather data
 - **Route**: `/api/weather`
 - **Request Type**: GET
 - **Purpose**: Returns all weather records
@@ -177,7 +163,7 @@ For our project we used the OpenWeather API. The app allows users to create acco
 - **Request Type**: POST
 - **Purpose**: Adds a weather record to the lsit based on the given city
 - **Request Body**:
-  - `None`
+  - `city_name (String): City to fetch weather for`
 - **Response Format**: JSON
   - **Success Response Example**:
     - Code: 201
@@ -187,6 +173,9 @@ For our project we used the OpenWeather API. The app allows users to create acco
           "status": "success",
           "message": "Weather data added for Boston"
       }
+
+     - **Example request**:
+     { "city_name": "Boston" }  
  
       ```
 
