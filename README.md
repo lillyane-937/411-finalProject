@@ -123,7 +123,7 @@ For our project we used the OpenWeather API. The app allows users to create acco
         "message": "Password changed"
       }
 
-      - **Response Format**:
+   - **Example request**:
         { "new_password": "newsecurepassword" }
  
       ```
