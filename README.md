@@ -164,7 +164,7 @@ For our project we used the OpenWeather API. The app allows users to create acco
 - **Request Type**: POST
 - **Purpose**: Adds a weather record to the lsit based on the given city
 - **Request Body**:
-  - `city_name (String): City to fetch weather for`
+  - `city_name (String): City to get weather data for`
 - **Response Format**: JSON
   - **Success Response Example**:
     - Code: 201
@@ -232,8 +232,8 @@ For our project we used the OpenWeather API. The app allows users to create acco
 - **Route**: `/api/weather`
 - **Request Type**: DELETE
 - **Purpose**: Deletes all stored weather records
-- **URL parameter**:
-  - `city_name (String): City name to delete`
+- **Request Body**:
+  - `None`
 - **Response Format**: JSON
   - **Success Response Example**:
     - Code: 200
