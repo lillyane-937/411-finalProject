@@ -82,7 +82,7 @@ For our project we used the OpenWeather API. The app allows users to create acco
     "username": "newuser123",
     "password": "securepassword"
   }
-      ```
+  ``` 
   - **Example Response**:
   ```json
   {     "status": "success",
@@ -124,6 +124,7 @@ For our project we used the OpenWeather API. The app allows users to create acco
       }
 
    - **Example request**:
+     ```
         { "new_password": "newsecurepassword" }
  
       ```
